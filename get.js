@@ -9,7 +9,7 @@ export const main = handler(async (event, context) => {
         return results[0];
     });*/
     return new Promise((resolve, reject) => {
-        dbConn.query('SELECT * FROM notes WHERE id = ? AND user_id = ?', [event.pathParameters.id, 1], function (error, results, fields) {
+        dbConn.query('SELECT * FROM notes WHERE id = ? AND user_id = ?', [event.pathParameters.id, event.requestContext.identity.cognitoIdentityId], function (error, results, fields) {
             if (results.length === 0) {
                 reject("Note not found.");
             }

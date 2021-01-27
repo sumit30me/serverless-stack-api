@@ -9,7 +9,7 @@ export const main = handler(async (event, context) => {
     const data = JSON.parse(event.body);
 
     return new Promise((resolve, reject) => {
-        dbConn.query('UPDATE notes SET content=?, attachment=?, modified_at=now() WHERE id=? AND user_id=?', [data.content, data.attachment, event.pathParameters.id, 1], function (error, results, fields) {
+        dbConn.query('UPDATE notes SET content=?, attachment=?, modified_at=now() WHERE id=? AND user_id=?', [data.content, data.attachment, event.pathParameters.id, event.requestContext.identity.cognitoIdentityId], function (error, results, fields) {
             dbConn.end();
             return error ? reject(error) : resolve(results);
         });
