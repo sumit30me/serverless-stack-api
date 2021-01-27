@@ -30,11 +30,11 @@ export const main = handler(async (event, context) => {
         body: JSON.stringify({ error: e.message }),
       };
     }*/
-
-    dbConn.query('INSERT INTO notes SET ?', note, function (error, results, fields) {
-        if (error) throw error;
+    return new Promise((resolve, reject) => {
+        dbConn.query('INSERT INTO notes SET ?', note, function (error, results, fields) {
+            dbConn.end();
+            return error ? reject(error) : resolve(note);
+        });
     });
-    dbConn.end();
-    return note;
 //}
 });
