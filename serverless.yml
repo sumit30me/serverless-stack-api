@@ -20,8 +20,8 @@ provider:
   # the following line. Also, make sure to not
   # commit your .env.
   #
-  #environment:
-  #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+  environment:
+    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
 
 functions:
   # hello:
@@ -64,4 +64,11 @@ functions:
         - http:
             path: notes/{id}
             method: delete
+            authorizer: aws_iam
+    billing:
+      handler: billing.main
+      events:
+        - http:
+            path: billing
+            method: post
             authorizer: aws_iam
